@@ -1,0 +1,16 @@
+---
+- name: pull displayTrigger
+  git:
+    clone: true
+    repo: https://github.com/SuperLimitBreak/displayTrigger.git
+    dest: /opt/displayTrigger
+
+- name: apt deps
+  apt:
+    pkg: python3-dbus
+
+- name: install displayTrigger
+  shell: make install
+  args:
+    chdir: /opt/displayTrigger
+

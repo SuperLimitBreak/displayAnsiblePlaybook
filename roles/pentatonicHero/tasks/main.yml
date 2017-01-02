@@ -1,0 +1,11 @@
+---
+- name: pull pentatonicHero
+  git:
+    clone: true
+    repo: https://github.com/SuperLimitBreak/pentatonicHero.git
+    dest: /opt/pentatonicHero
+
+- name: install pentatonicHero
+  shell: make install
+  args:
+    chdir: /opt/pentatonicHero
