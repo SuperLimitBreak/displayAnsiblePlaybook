@@ -20,18 +20,11 @@
     append: yes
     state: present
 
-- name: touch {{ user }} sudoers file
-  file:
-    path: "/etc/sudoers.d/{{ user }}-nopasswd"
-    state: touch
-    mode: 0640
-  register: nopasswdfile
-
-- name: edit {{ user }} sudoers files
-  copy:
-    content: "{{ user }} ALL=(ALL) NOPASSWD: ALL\n"
+- name: create {{ user }} sudoers file
+  template:
+    src: autologin.conf.j2
     dest: "/etc/sudoers.d/{{ user }}-nopasswd"
-  when: nopasswdfile.changed
+    mode: 0640
 
 # Will be putting our packages here
 - name: create {{ src_folder }}

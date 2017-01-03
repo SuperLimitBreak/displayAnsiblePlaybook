@@ -1,5 +1,5 @@
 ---
-- name: get python libs
+- name: pull calaldees libs
   remote_user: "{{ user }}"
   git:
     clone: true
