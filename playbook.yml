@@ -1,6 +1,8 @@
 ---
 - hosts: all
   user: root
+  vars:
+    src_folder: /super_limit_break/
   roles:
     - base
     - libs

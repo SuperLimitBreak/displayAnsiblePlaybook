@@ -1,16 +1,20 @@
 ---
 - name: pull displayTrigger
+  remote_user: "{{ user }}"
   git:
-    clone: true
     repo: https://github.com/SuperLimitBreak/displayTrigger.git
-    dest: /opt/displayTrigger
+    dest: "{{ src_folder }}/displayTrigger"
+    update: yes
+  register: checkout
 
 - name: apt deps
   apt:
     pkg: python3-dbus
 
 - name: install displayTrigger
-  shell: make install
+  remote_user: "{{ user }}"
+  shell: make clean && make install
   args:
-    chdir: /opt/displayTrigger
+    chdir: "{{ src_folder }}/displayTrigger"
+  when: checkout.changed
 

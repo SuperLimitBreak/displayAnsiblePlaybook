@@ -1,6 +1,7 @@
 ---
 - name: get python libs
+  remote_user: "{{ user }}"
   git:
     clone: true
     repo: https://github.com/calaldees/libs.git
-    dest: /opt/libs/
+    dest: "{{ src_folder}}/libs/"
