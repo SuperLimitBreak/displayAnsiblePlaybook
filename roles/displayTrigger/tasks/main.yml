@@ -1,6 +1,7 @@
 ---
 - name: pull displayTrigger
-  remote_user: "{{ user }}"
+  become: true
+  become_user: "{{ user }}"
   git:
     repo: https://github.com/SuperLimitBreak/displayTrigger.git
     dest: "{{ src_folder }}/displayTrigger"
@@ -12,7 +13,8 @@
     pkg: python3-dbus
 
 - name: install displayTrigger
-  remote_user: "{{ user }}"
+  become: true
+  become_user: "{{ user }}"
   shell: make clean && make install
   args:
     chdir: "{{ src_folder }}/displayTrigger"

@@ -1,4 +1,4 @@
 toki user=allan
 
 [testing]
-172.17.0.2  # local docker container
+172.17.0.2 user=richard  # local docker container

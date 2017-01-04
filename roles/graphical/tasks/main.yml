@@ -1,0 +1,29 @@
+---
+- name: apt deps
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - lightdm
+    - libglib2.0-bin
+    - xserver-xorg
+
+- name: add google-chrome apt key
+  apt_key:
+    url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+    state: present
+
+- name: add google-chrome apt repo
+  copy:
+    content: "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main"
+    dest: "/etc/apt/sources.list.d/google-chrome.list"
+  register: googlerepo
+
+- name: install google chrome
+  apt:
+    pkg: google-chrome-stable
+    update_cache: yes
+
+- name: auto login {{ user }}
+  template:
+    src: autologin.conf.j2
+    dest: "/etc/lightdm/lightdm.conf.d/autologin.conf"
+    mode: 0644

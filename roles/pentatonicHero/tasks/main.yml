@@ -1,6 +1,7 @@
 ---
 - name: pull pentatonicHero
-  remote_user: "{{ user }}"
+  become: true
+  become_user: "{{ user }}"
   git:
     clone: true
     repo: https://github.com/SuperLimitBreak/pentatonicHero.git
@@ -9,7 +10,8 @@
   register: checkout
 
 - name: install pentatonicHero
-  remote_user: "{{ user }}"
+  become: true
+  become_user: "{{ user }}"
   shell: make clean && make install
   args:
     chdir: "{{ src_folder }}/pentatonicHero"
