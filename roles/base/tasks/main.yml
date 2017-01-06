@@ -15,6 +15,15 @@
     - sudo
     - git
     - apt-transport-https
+    - vim
+
+- name: remove problematic apt pkgs
+  apt:
+    pkg: "{{ item }}"
+    state: absent
+    purge: yes
+  with_items:
+    - unattended-upgrades
 
 - name: ensure user in sudo group
   user:
