@@ -6,6 +6,7 @@
     purge: yes
   with_items:
     - accountsservice
+    - update-notifier
 
 # This file causes issues selecting desktop environment
 - name: remove conflict accountservice file
@@ -14,12 +15,15 @@
     state: absent
 
 - name: apt deps
-  apt: pkg={{ item }} state=installed
+  apt:
+    pkg: "{{ item }}"
+    state: installed
   with_items:
     - lightdm
     - libglib2.0-bin
     - xserver-xorg
     - openbox
+    - unclutter  # hide cursor when not in use
 
 - name: add google-chrome apt key
   apt_key:
@@ -44,7 +48,24 @@
     mode: 0644
 
 - name: set desktop environment
-  template:
-    src: .dmrc.j2
+  become: true
+  become_user: "{{ user }}"
+  copy:
+    src: .dmrc
     dest: "/home/{{ user }}/.dmrc"
     mode: 0644
+    owner: "{{ user }}"
+
+- name: create openbox config folder
+  file:
+    path: "/home/{{ user }}/.config/openbox/"
+    state: directory
+    mode: 0744
+    owner: "{{ user }}"
+
+- name: graphical autostart
+  copy:
+    src: autostart
+    dest: "/home/{{ user }}/.config/openbox/autostart"
+    mode: 0644
+    owner: "{{ user }}"
