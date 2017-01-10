@@ -1,5 +1,25 @@
 #!/bin/bash
 # {{ ansible_managed }}
 
+sleep 10
+
+fb_width=$(xwininfo -root | grep Width | cut -d ' ' -f 4)
+fb_height=$(xwininfo -root | grep Height | cut -d ' ' -f 4)
+
+if [ -z $fb_width ] || [ -z $fb_height ]; then
+    zenity --error --text="Failed to find framebuffer size, quitting" --title="Warning!" &
+    exit 1
+fi
+
 # Hide cursor when not in use
 unclutter &
+
+google-chrome --kiosk &
+while ! wmctrl -l | grep -q "Google Chrome"; do
+    sleep 1
+done
+sleep 3
+
+# resize google-chrome
+wmctrl -r "Google Chrome" -b toggle,fullscreen
+wmctrl -r "Google Chrome" -e 0,0,0,$fb_width,$fb_height

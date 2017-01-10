@@ -24,6 +24,8 @@
     - xserver-xorg
     - openbox
     - unclutter  # hide cursor when not in use
+    - wmctrl
+    - zenity
 
 - name: add google-chrome apt key
   apt_key:
