@@ -1,0 +1,17 @@
+---
+- name: pull voteBattle
+  become: true
+  become_user: "{{ user }}"
+  git:
+    repo: https://github.com/SuperLimitBreak/voteBattle.git
+    dest: "{{ src_folder }}/voteBattle"
+    update: yes
+  register: checkout
+
+- name: install voteBattle
+  become: true
+  become_user: "{{ user }}"
+  shell: make clean && make install
+  args:
+    chdir: "{{ src_folder }}/voteBattle/server"
+  when: checkout.changed
