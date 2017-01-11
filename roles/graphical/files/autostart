@@ -23,3 +23,7 @@ sleep 3
 # resize google-chrome
 wmctrl -r "Google Chrome" -b toggle,fullscreen
 wmctrl -r "Google Chrome" -e 0,0,0,$fb_width,$fb_height
+
+# Turn off screensaver
+xset -dpms
+xset s noblank

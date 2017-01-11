@@ -24,6 +24,7 @@
     purge: yes
   with_items:
     - unattended-upgrades
+    - gnome-screensaver
 
 - name: ensure user in sudo group
   user:
