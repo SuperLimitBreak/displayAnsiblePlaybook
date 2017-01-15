@@ -16,6 +16,7 @@
     - git
     - apt-transport-https
     - vim
+    - daemon
 
 - name: remove problematic apt pkgs
   apt:

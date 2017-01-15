@@ -71,3 +71,10 @@
     dest: "/home/{{ user }}/.config/openbox/autostart"
     mode: 0644
     owner: "{{ user }}"
+
+- name: chrome startup script
+  copy:
+    src: chrome.sh
+    dest: "{{ src_folder }}/chrome.sh"
+    mode: 0744
+    owner: "{{ user }}"
