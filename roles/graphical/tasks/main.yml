@@ -72,6 +72,13 @@
     mode: 0644
     owner: "{{ user }}"
 
+- name: window decorations
+  copy:
+    src: rc.xml
+    dest: "/home/{{ user }}/.config/openbox/rc.xml"
+    mode: 0644
+    owner: "{{ user }}"
+
 - name: chrome startup script
   copy:
     src: chrome.sh

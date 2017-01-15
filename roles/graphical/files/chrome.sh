@@ -5,7 +5,9 @@ DAEMON_NAME="google-chrome-daemon"
 PID_FILE="/tmp/google-chrome.pid"
 
 CHROME_CMD="google-chrome"
-CHROME_OPTS="--noerrdialogs --kiosk --disable-plugins --disable-extensions --no-first-run --disable-overlay-scrollbar --no-default-browser-check --disable-session-crashed-bubble --incognito http://localhost:6543/display/display.html?deviceid=main"
+CHROME_OPTS="--noerrdialogs --disable-plugins --disable-extensions --no-first-run --disable-overlay-scrollbar --no-default-browser-check --disable-session-crashed-bubble --app=http://localhost:6543/display/display.html?deviceid=main"
+
+WINDOW_TITLE="DisplayTrigger"
 
 
 start() {
@@ -19,14 +21,18 @@ start() {
 
     daemon --name=$DAEMON_NAME --pidfile=$PID_FILE -- $CHROME_CMD $CHROME_OPTS
 
-    while ! wmctrl -l | grep -q "Google Chrome"; do
+    while ! wmctrl -l | grep -q $WINDOW_TITLE
+    do
         sleep 1
     done
     sleep 1
 
     # resize google-chrome
-    wmctrl -r "Google Chrome" -b toggle,fullscreen
-    wmctrl -r "Google Chrome" -e 0,0,0,$fb_width,$fb_height
+    for prop in sticky maximized_vert maximized_horz hidden fullscreen;
+    do
+        wmctrl -r $WINDOW_TITLE -b remove,$prop
+    done
+    wmctrl -r $WINDOW_TITLE -e 0,0,0,$fb_width,$fb_height
 }
 
 
