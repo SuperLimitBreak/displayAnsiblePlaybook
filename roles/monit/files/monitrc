@@ -1,14 +1,24 @@
 # Monit configuration
-SET DAEMON 60
+SET DAEMON 5
 
 SET HTTPD PORT 8080
     ALLOW localhost
+
+# lighting-automation
+CHECK PROCESS lighting-automation PIDFILE /tmp/lighting-automation.pid
+    START PROGRAM = "/usr/bin/daemon --name=lighting-automation --pidfile=/tmp/lighting-automation.pid --chdir /super_limit_break/lightingAutomation -- /usr/bin/make run_production"
+    STOP PROGRAM = "/usr/bin/daemon --name=lighting-automation --pidfile=/tmp/lighting-automation.pid --stop"
+
+# Vote-battle
+CHECK PROCESS vote-battle PIDFILE /tmp/vote-battle.pid
+    START PROGRAM = "/usr/bin/daemon --name=vote-battle --pidfile=/tmp/vote-battle.pid --chdir /super_limit_break/voteBattle/server -- /usr/bin/make run_production"
+    STOP PROGRAM = "/usr/bin/daemon --name=vote-battle --pidfile=/tmp/vote-battle.pid --stop"
 
 # Display Trigger
 CHECK PROCESS display-trigger PIDFILE /tmp/display-trigger.pid
     START PROGRAM = "/usr/bin/daemon --name=display-trigger --pidfile=/tmp/display-trigger.pid --chdir /super_limit_break/displayTrigger/server -- /usr/bin/make run_production"
     STOP PROGRAM = "/usr/bin/daemon --name=display-trigger --pidfile=/tmp/display-trigger.pid --stop"
-	IF FAILEd PORT 6543 PROTOCOL HTTP
+	IF FAILED PORT 6543 PROTOCOL HTTP
         REQUEST /display/display.html
         WITH TIMEOUT 15 SECONDS
         THEN RESTART
