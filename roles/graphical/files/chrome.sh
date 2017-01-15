@@ -4,7 +4,8 @@ set +e
 DAEMON_NAME="google-chrome-daemon"
 PID_FILE="/tmp/google-chrome.pid"
 
-CHROME_CMD="google-chrome --kiosk"
+CHROME_CMD="google-chrome"
+CHROME_OPTS="--noerrdialogs --kiosk --disable-plugins --disable-extensions --no-first-run --disable-overlay-scrollbar --no-default-browser-check --disable-session-crashed-bubble --incognito http://localhost:6543/display/display.html?deviceid=main"
 
 
 start() {
@@ -16,12 +17,12 @@ start() {
         exit 1
     fi
 
-    daemon --name=$DAEMON_NAME --pidfile=$PID_FILE -- $CHROME_CMD
+    daemon --name=$DAEMON_NAME --pidfile=$PID_FILE -- $CHROME_CMD $CHROME_OPTS
 
     while ! wmctrl -l | grep -q "Google Chrome"; do
         sleep 1
     done
-    sleep 3
+    sleep 1
 
     # resize google-chrome
     wmctrl -r "Google Chrome" -b toggle,fullscreen

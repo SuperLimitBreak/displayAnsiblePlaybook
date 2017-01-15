@@ -1,0 +1,20 @@
+# Monit configuration
+SET DAEMON 60
+
+SET HTTPD PORT 8080
+    ALLOW localhost
+
+# Display Trigger
+CHECK PROCESS display-trigger PIDFILE /tmp/display-trigger.pid
+    START PROGRAM = "/usr/bin/daemon --name=display-trigger --pidfile=/tmp/display-trigger.pid --chdir /super_limit_break/displayTrigger/server -- /usr/bin/make run_production"
+    STOP PROGRAM = "/usr/bin/daemon --name=display-trigger --pidfile=/tmp/display-trigger.pid --stop"
+	IF FAILEd PORT 6543 PROTOCOL HTTP
+        REQUEST /display/display.html
+        WITH TIMEOUT 15 SECONDS
+        THEN RESTART
+
+# Google chrome
+CHECK PROCESS google-chrome PIDFILE /tmp/google-chrome.pid
+    START PROGRAM = "/super_limit_break/chrome.sh start"
+    STOP PROGRAM = "/super_limit_break/chrome.sh stop"
+    DEPENDS ON display-trigger

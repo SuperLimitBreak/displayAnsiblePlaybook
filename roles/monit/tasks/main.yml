@@ -1,0 +1,14 @@
+---
+- name: apt deps
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - monit
+
+- name: monitrc file
+  copy:
+    src: monitrc
+    dest: "{{ src_folder }}/monitrc"
+    mode: 0700
+    owner: "{{ user }}"

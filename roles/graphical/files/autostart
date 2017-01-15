@@ -9,3 +9,6 @@ unclutter &
 # Turn off screensaver
 xset -dpms
 xset s off
+
+# Start service manager
+monit -c /super_limit_break/monitrc
