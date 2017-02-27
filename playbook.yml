@@ -12,3 +12,4 @@
     - voteBattle
     - graphical
     - monit
+    - lexrus.ansible-role-docker
