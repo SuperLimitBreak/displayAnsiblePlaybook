@@ -26,6 +26,7 @@
   with_items:
     - unattended-upgrades
     - gnome-screensaver
+    - deja-dup
 
 - name: ensure user in sudo group
   user:
@@ -44,6 +45,13 @@
 - name: create {{ src_folder }}
   file:
     path: "{{ src_folder }}"
+    state: directory
+    mode: 0755
+    owner: "{{ user }}"
+
+- name: create {{ src_folder }}/log
+  file:
+    path: "{{ src_folder }}/log"
     state: directory
     mode: 0755
     owner: "{{ user }}"
